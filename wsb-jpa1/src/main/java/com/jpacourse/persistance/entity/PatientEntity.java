@@ -1,10 +1,10 @@
 package com.jpacourse.persistance.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.*;
 
-//tes
 @Entity
 @Table(name = "PATIENT")
 public class PatientEntity {
@@ -29,6 +29,10 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "Patient_idAAAAAAA")
+	private List<AddressEntity> addressEntityList;
 
 	public Long getId() {
 		return id;

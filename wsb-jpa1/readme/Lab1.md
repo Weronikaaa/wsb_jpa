@@ -12,3 +12,7 @@ Ustaw relacje tak, aby przynajmniej raz byla wykorzystana relacja jednostronna i
 Przy kazdej relacji napisz jako komentarz czy jest to relacja jednostronna od strony rodzica (wlasciciela relacji), jednostronna od strony dziecka, czy dwustronna.
    ![](db_schema.png)
 7. Uzupelnij plik data.sql danymi (komendy insert) w odpowiedniej kolejnosci potwierdzajac poprawnosc modelu
+
+
+
+test

@@ -15,4 +15,4 @@ Przy kazdej relacji napisz jako komentarz czy jest to relacja jednostronna od st
 
 
 
-test
+test123

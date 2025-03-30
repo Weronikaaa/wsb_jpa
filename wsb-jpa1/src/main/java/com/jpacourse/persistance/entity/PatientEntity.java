@@ -30,7 +30,7 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
-
+//
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "address_id", referencedColumnName = "id")
 	private AddressEntity address;

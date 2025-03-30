@@ -3,6 +3,9 @@ package com.jpacourse.persistance.entity;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Table;
+import org.hibernate.annotations.*;
 
 @Entity
 @Table(name = "VISIT")
@@ -16,6 +19,31 @@ public class VisitEntity {
 
 	@Column(nullable = false)
 	private LocalDateTime time;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, name = "doctor_id")
+	private DoctorEntity doctor;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, name = "patient_id")
+	private PatientEntity patient;
+
+	@OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MedicalTreatmentEntity> medicalTreatments = new ArrayList<>();
+
+
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "patint_id")
+//	private PatientEntity patientEntity;
+//
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "doctor_id")
+//	private DoctorEntity doctorEntity;
+//
+//	@Fetch(FetchMode.SELECT)
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//	@JoinColumn(name = "VISIT_ID")
+//	private Collection<MedicalTreatmentEntity> medicalTreatmentEntityCollection;
 
 	public Long getId() {
 		return id;

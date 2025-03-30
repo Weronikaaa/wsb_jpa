@@ -30,9 +30,16 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "Patient_idAAAAAAA")
-	private List<AddressEntity> addressEntityList;
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, name = "address_id", referencedColumnName = "id")
+	private AddressEntity address;
+
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visits = new ArrayList<>();
+
+//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	@JoinColumn(name = "Patient_idAAAAAAA")
+//	private List<AddressEntity> addressEntityList;
 
 	public Long getId() {
 		return id;

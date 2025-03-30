@@ -4,6 +4,8 @@ import com.jpacourse.persistance.enums.Specialization;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "DOCTOR")
 public class DoctorEntity {
@@ -29,6 +31,20 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false, name = "address_id", referencedColumnName = "id")
+	private AddressEntity address;
+
+	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<VisitEntity> visits = new ArrayList<>();
+
+//	@OneToMany(cascade = {CascadeType.PERSIST})
+//	@JoinColumn(name = 'address_id')
+//	private AddressEntity addressEntity;
+//
+//	@OneToMany(mappedBy = 'doctorEntity', cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+//	private List<VisitEntity> visits;
 
 	public Long getId() {
 		return id;

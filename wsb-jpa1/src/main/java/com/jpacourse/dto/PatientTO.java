@@ -1,6 +1,7 @@
 package com.jpacourse.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 public class PatientTO {
     private Long id;
@@ -10,6 +11,8 @@ public class PatientTO {
     private String email;
     private String patientNumber;
     private LocalDate dateOfBirth;
+
+    private List<VisitTO> visits;
 
     public Long getId() { return id; }
 
@@ -38,4 +41,12 @@ public class PatientTO {
     public LocalDate getDateOfBirth() { return dateOfBirth; }
 
     public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
+
+    public List<VisitTO> getVisits() {
+        return visits;
+    }
+
+    public void setVisits(List<VisitTO> visits) {
+        this.visits = visits;
+    }
 }

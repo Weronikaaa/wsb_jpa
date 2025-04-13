@@ -69,4 +69,6 @@ public class AddressEntity {
 		this.postalCode = postalCode;
 	}
 
+
+
 }

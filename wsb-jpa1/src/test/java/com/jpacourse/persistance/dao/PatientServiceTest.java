@@ -2,6 +2,7 @@ package com.jpacourse.persistance.dao;
 
 import com.jpacourse.persistance.entity.AddressEntity;
 import com.jpacourse.persistance.entity.PatientEntity;
+import com.jpacourse.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class PatientServiceTest {
 
     @Autowired
-    private PatientDao patientDao;
+    private PatientService patientService;
 
     @Test
     public void testShouldSavePatientWithAddress() {

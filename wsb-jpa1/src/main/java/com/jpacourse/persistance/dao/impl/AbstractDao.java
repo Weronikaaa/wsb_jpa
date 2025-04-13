@@ -22,23 +22,19 @@ public abstract class AbstractDao<T, K extends Serializable> implements Dao<T, K
 
 	private Class<T> domainClass;
 
-	@Override
 	public T save(T entity) {
 		entityManager.persist(entity);
 		return entity;
 	}
 
-	@Override
 	public T getOne(K id) {
 		return entityManager.getReference(getDomainClass(), id);
 	}
 
-	@Override
 	public T findOne(K id) {
 		return entityManager.find(getDomainClass(), id);
 	}
 
-	@Override
 	public List<T> findAll() {
 		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = builder.createQuery(getDomainClass());
@@ -47,32 +43,26 @@ public abstract class AbstractDao<T, K extends Serializable> implements Dao<T, K
 		return query.getResultList();
 	}
 
-	@Override
 	public T update(T entity) {
 		return entityManager.merge(entity);
 	}
 
-	@Override
 	public void delete(T entity) {
 		entityManager.remove(entity);
 	}
 
-	@Override
 	public void delete(K id) {
 		entityManager.remove(getOne(id));
 	}
 
-	@Override
 	public void deleteAll() {
 		entityManager.createQuery("delete " + getDomainClassName()).executeUpdate();
 	}
 
-	@Override
 	public long count() {
 		return (long) entityManager.createQuery("Select count(*) from " + getDomainClassName()).getSingleResult();
 	}
 
-	@Override
 	public boolean exists(K id) {
 		return findOne(id) != null;
 	}

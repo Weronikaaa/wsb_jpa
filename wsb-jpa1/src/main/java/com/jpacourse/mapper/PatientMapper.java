@@ -15,6 +15,7 @@ public class PatientMapper {
         patientTO.setEmail(patientEntity.getEmail());
         patientTO.setPatientNumber(patientEntity.getPatientNumber());
         patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
+        patientTO.setVisits(VisitMapper.mapToTOs(patientEntity.getVisits()));
         return patientTO;
     }
 }

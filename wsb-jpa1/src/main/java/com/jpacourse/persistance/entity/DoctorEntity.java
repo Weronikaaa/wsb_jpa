@@ -21,7 +21,8 @@ public class DoctorEntity {
 	@Column(nullable = false)
 	private String telephoneNumber;
 
-	private String email;
+	@Column
+	private String email
 
 	@Column(nullable = false)
 	private String doctorNumber;

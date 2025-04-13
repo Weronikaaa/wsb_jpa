@@ -11,12 +11,16 @@ public class AddressEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(nullable = false)
 	private String city;
 
+	@Column(nullable = false)
 	private String addressLine1;
 
+	@Column(nullable = true)
 	private String addressLine2;
 
+	@Column(nullable = false)
 	private String postalCode;
 
 	//tworzenie relacji

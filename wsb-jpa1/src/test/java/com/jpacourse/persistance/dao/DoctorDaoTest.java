@@ -21,12 +21,15 @@ public class DoctorDaoTest
         // given
         DoctorEntity doctorEntity = new DoctorEntity();
         doctorEntity.setFirstName("John");
+        doctorEntity.setLastName("Doe");
         doctorEntity.setSpecialization(Specialization.GP);
+        doctorEntity.setTelephoneNumber("555-123-456");
+        doctorEntity.setDoctorNumber("12345");
 
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setAddressLine1("123 Main St");
 
-        //doctorEntity.setAddressEntity(addressEntity); ///blad???
+        doctorEntity.setAddress(addressEntity);
 
         // when
         doctorDao.save(doctorEntity);

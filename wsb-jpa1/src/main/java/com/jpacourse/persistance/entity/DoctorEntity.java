@@ -41,6 +41,7 @@ public class DoctorEntity {
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<VisitEntity> visits = new ArrayList<>();
 
+
 //	@OneToMany(cascade = {CascadeType.PERSIST})
 //	@JoinColumn(name = 'address_id')
 //	private AddressEntity addressEntity;
@@ -102,6 +103,15 @@ public class DoctorEntity {
 
 	public void setSpecialization(Specialization specialization) {
 		this.specialization = specialization;
+	}
+
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
 	}
 
 }

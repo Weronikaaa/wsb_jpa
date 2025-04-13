@@ -23,14 +23,6 @@ public class AddressEntity {
 	@Column(nullable = false)
 	private String postalCode;
 
-	//tworzenie relacji
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="PATIENT_ID")
-	private PatientEntity patientEntity;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "doctor_id")
-	private DoctorEntity doctorEntity;
 
 	//tworzenie relacji
 	//@OneToMany(mappedBy = "addressEntityList")

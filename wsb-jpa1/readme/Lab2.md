@@ -40,6 +40,13 @@ DAO:
 4. Visit
 5. MedicalTreatment
 
+Service:
+1. Address
+2. Doctor
+3. Patient
+4. Visit
+5. MedicalTreatment
+
 
 3. Korzystajac z przykladowych insertow w pliku data.sql uzupelnij encje pacjenta, doktorow oraz wizyt danymi testowymi
 4. Korzystajac z przykladowych testow dla encji Address, napisz testy do serwisu (uwaga! serwisu, nie DAO!) pacjenta:

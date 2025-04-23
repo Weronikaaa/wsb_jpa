@@ -12,50 +12,15 @@ opcjonalnie RESTy - dla chetnych) dla encji PatientEntity. Spelnione maja byc na
    - kazda wizyta ma miec informacje o czasie (daty), imie i nazwisko lekarza oraz liste typow (z encji MedicalTreatment) -to do 
    - rozszerz encje PatientEntity o jedno dowolne pole innego typu niz String, odwzoruj je w TO. -to do 
 
-Entity:
-1. Address
-2. Doctor
-3. Patient
-4. Visit
-5. MedicalTreatment
-
-TO:
-1. Address
-2. Doctor
-3. Patient
-4. Visit
-5. MedicalTreatment
-
-Mapper:
-1. Address
-2. Doctor
-3. Patient
-4. Visit
-5. MedicalTreatment
-
-DAO:
-1. Address
-2. Doctor
-3. Patient
-4. Visit
-5. MedicalTreatment
-
-Service:
-1. Address
-2. Doctor
-3. Patient
-4. Visit
-5. MedicalTreatment
-
 
 3. Korzystajac z przykladowych insertow w pliku data.sql uzupelnij encje pacjenta, doktorow oraz wizyt danymi testowymi
+
 4. Korzystajac z przykladowych testow dla encji Address, napisz testy do serwisu (uwaga! serwisu, nie DAO!) pacjenta:
-   - test usuwajacy pacjenta sprawdza czy usuniete zostaly wszystkie wizyty (kaskada) i czy nie zostali usunieci doktorzy
+   - test usuwajacy pacjenta sprawdza czy usuniete zostaly wszystkie wizyty (kaskada) i czy nie zostali usunieci doktorzy - DONE
    - pobranie pacjenta po ID powinno zwrocic strukture TO-sow odpowiadajaca wczesniejszym zalozeniom. W asercjach sprawdz poprawnosc odczytu dodanego przez Ciebie pola z punktu pierwszego
+
 5. Dodaj metode w PatientDao, ktora na podstawie parametrow wejsciowych:
-
    ID pacjenta, ID doktora, data wizyty, opis wizyty 
+   utworzy nowa encje wizyty i doda ja do pacjenta w jednym wywolaniu - kaskadowy update pacjenta (merge). - DONE 
 
-   utworzy nowa encje wizyty i doda ja do pacjenta w jednym wywolaniu - kaskadowy update pacjenta (merge). 
-
-   Npisz test do tej metody (Dao)
+   Npisz test do tej metody (Dao) -----????

@@ -1,8 +1,8 @@
 package com.jpacourse.persistance.dao;
 
-import com.jpacourse.persistance.entity.PatientEntity;
-
 import java.time.LocalDateTime;
+
+import com.jpacourse.persistance.entity.PatientEntity;
 
 public interface PatientDao extends Dao<PatientEntity, Long> {
     //dodac metode ktora na podstawie parametrow wejsciowych:

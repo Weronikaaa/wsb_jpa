@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS address CASCADE;
-DROP TABLE IF EXISTS doctor CASCADE;
-DROP TABLE IF EXISTS patient CASCADE;
-DROP TABLE IF EXISTS visit CASCADE;
-DROP TABLE IF EXISTS medical_treatment CASCADE;
+DROP TABLE IF EXISTS medical_treatment;
+DROP TABLE IF EXISTS visit;
+DROP TABLE IF EXISTS patient;
+DROP TABLE IF EXISTS doctor;
+DROP TABLE IF EXISTS address;
 
 CREATE TABLE IF NOT EXISTS address
 (
@@ -118,6 +118,6 @@ VALUES (48, 'Routine Check', '2025-05-01 11:00:00', 123, 22),
 INSERT INTO MEDICAL_TREATMENT (ID, DESCRIPTION, TYPE, VISIT_ID)
 VALUES (101, 'Cardiac Assessment', 'MRI', 49),
        (102, 'Kidney Scan', 'CT', 49),
-       (103, 'Lung Imaging', 'X-Ray', 50),
+       (103, 'Lung Imaging', 'X_RAY', 50),
        (104, 'Retinal Scan', 'OCT', 51),
        (105, 'Spinal MRI', 'MRI', 48);

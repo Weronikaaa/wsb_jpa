@@ -1,32 +1,22 @@
 package com.jpacourse.dto;
 
-import com.jpacourse.persistance.entity.VisitEntity;
-import com.jpacourse.persistance.enums.Specialization;
-import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Collection;
+
 import com.jpacourse.persistance.entity.VisitEntity;
 import com.jpacourse.persistance.enums.Specialization;
-import jakarta.persistence.*;
 
 public class DoctorTO implements Serializable {
 
     private Long id;
-
     private String firstName;
-
     private String lastName;
-
     private String telephoneNumber;
-
     private String email;
-
     private Specialization specialization;
-
     private String doctorNumber;
-
     private Collection<VisitEntity> visits;
+    private Long addressId; 
 
     public Long getId() {
         return id;
@@ -90,5 +80,13 @@ public class DoctorTO implements Serializable {
 
     public void setVisits(Collection<VisitEntity> visits) {
         this.visits = visits;
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 }

@@ -4,7 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "PATIENT")
@@ -31,7 +41,7 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
-//
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "address_id", referencedColumnName = "id")
 	private AddressEntity address;
@@ -39,9 +49,9 @@ public class PatientEntity {
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<VisitEntity> visits = new ArrayList<>();
 
-//	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JoinColumn(name = "Patient_idAAAAAAA")
-//	private List<AddressEntity> addressEntityList;
+	// @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	// //@Fetch(FetchMode.JOIN)
+	// private List<VisitEntity> visits = new ArrayList<>();
 
 	public Long getId() {
 		return id;

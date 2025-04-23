@@ -1,7 +1,12 @@
 package com.jpacourse.persistance.entity;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "ADDRESS")
@@ -22,12 +27,6 @@ public class AddressEntity {
 
 	@Column(nullable = false)
 	private String postalCode;
-
-
-	//tworzenie relacji
-	//@OneToMany(mappedBy = "addressEntityList")
-	//private PatientEntity patientEntity;
-
 
 	public Long getId() {
 		return id;
@@ -68,7 +67,5 @@ public class AddressEntity {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-
-
 
 }

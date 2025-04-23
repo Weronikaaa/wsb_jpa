@@ -1,31 +1,44 @@
 package com.jpacourse.persistance.dao;
 
-import com.jpacourse.persistance.entity.AddressEntity;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.jpacourse.persistance.entity.AddressEntity;
 
 @SpringBootTest
-public class AddressDaoTest
-{
+public class AddressDaoTest {
+
     @Autowired
     private AddressDao addressDao;
 
     @Transactional
+    @Rollback
     @Test
     public void testShouldFindAddressById() {
         // given
+        AddressEntity address = new AddressEntity();
+        address.setAddressLine1("Main Street");
+        address.setAddressLine2("Apt 1");
+        address.setCity("Warsaw");
+        address.setPostalCode("00-001");
+        AddressEntity savedAddress = addressDao.save(address);
+
         // when
-        AddressEntity addressEntity = addressDao.findOne(901L);
+        AddressEntity addressEntity = addressDao.findOne(savedAddress.getId());
+
         // then
         assertThat(addressEntity).isNotNull();
-        assertThat(addressEntity.getPostalCode()).isEqualTo("90001");
+        assertThat(addressEntity.getPostalCode()).isEqualTo("00-001");
+        assertThat(addressEntity.getAddressLine1()).isEqualTo("Main Street");
+        assertThat(addressEntity.getCity()).isEqualTo("Warsaw");
     }
 
     @Transactional
+    @Rollback
     @Test
     public void testShouldSaveAddress() {
         // given
@@ -42,10 +55,11 @@ public class AddressDaoTest
         // then
         assertThat(saved).isNotNull();
         assertThat(saved.getId()).isNotNull();
-        assertThat(addressDao.count()).isEqualTo(entitiesNumBefore+1);
+        assertThat(addressDao.count()).isEqualTo(entitiesNumBefore + 1);
     }
 
     @Transactional
+    @Rollback
     @Test
     public void testShouldSaveAndRemoveAddress() {
         // given
@@ -67,6 +81,4 @@ public class AddressDaoTest
         final AddressEntity removed = addressDao.findOne(saved.getId());
         assertThat(removed).isNull();
     }
-
-
 }

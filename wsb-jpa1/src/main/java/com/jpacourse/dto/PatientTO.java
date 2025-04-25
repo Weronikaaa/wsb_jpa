@@ -2,7 +2,6 @@ package com.jpacourse.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PatientTO implements Serializable {
@@ -13,8 +12,23 @@ public class PatientTO implements Serializable {
     private String email;
     private String patientNumber;
     private LocalDate dateOfBirth;
-    private Long addressId; // Referencja do adresu przez ID
-    private List<Long> visitIds = new ArrayList<>(); // Lista ID wizyt
+    private LocalDate registrationDate; 
+    private List<VisitTO> visits;
+
+    public PatientTO(Long id, String firstName, String lastName, 
+                String telephoneNumber, String email, 
+                String patientNumber, LocalDate dateOfBirth,
+                LocalDate registrationDate, List<VisitTO> visits) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.telephoneNumber = telephoneNumber;
+    this.email = email;
+    this.patientNumber = patientNumber;
+    this.dateOfBirth = dateOfBirth;
+    this.registrationDate = registrationDate;
+    this.visits = visits;
+}
 
     // Gettery i settery
     public Long getId() {
@@ -73,19 +87,19 @@ public class PatientTO implements Serializable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Long getAddressId() {
-        return addressId;
+    public LocalDate getDateOfRegistration() {
+        return registrationDate;
     }
 
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
+    public void setDateOfRegistration(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
-    public List<Long> getVisitIds() {
-        return visitIds;
+    public List<VisitTO> getVisits() {
+        return visits;
     }
 
-    public void setVisitIds(List<Long> visitIds) {
-        this.visitIds = visitIds;
+    public void setVisits(List<VisitTO> visits) {
+        this.visits = visits;
     }
 }

@@ -3,6 +3,7 @@ package com.jpacourse.mapper;
 import java.util.stream.Collectors;
 
 import com.jpacourse.dto.PatientTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistance.entity.PatientEntity;
 
 public final class PatientMapper {
@@ -20,15 +21,16 @@ public final class PatientMapper {
         patientTO.setEmail(patientEntity.getEmail());
         patientTO.setPatientNumber(patientEntity.getPatientNumber());
         patientTO.setDateOfBirth(patientEntity.getDateOfBirth());
+        patientTO.setDateOfRegistration(patientEntity.getRegistrationDate());
         
-        if (patientEntity.getAddress() != null) {
-            patientTO.setAddressId(patientEntity.getAddress().getId());
-        }
+        // if (patientEntity.getAddress() != null) {
+        //     patientTO.setAddressId(patientEntity.getAddress().getId());
+        // }
         
         if (patientEntity.getVisits() != null) {
-            patientTO.setVisitIds(
+            patientTO.setVisits(
                 patientEntity.getVisits().stream()
-                    .map(visit -> visit.getId())
+                    .map(visit -> VisitMapper.mapToTO(visit))
                     .collect(Collectors.toList())
             );
         }

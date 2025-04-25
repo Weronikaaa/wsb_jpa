@@ -42,6 +42,9 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
+	@Column(nullable = false)
+	private LocalDate registrationDate;
+
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "address_id", referencedColumnName = "id")
 	private AddressEntity address;
@@ -123,5 +126,13 @@ public class PatientEntity {
 
 	public void setVisits(List<VisitEntity> visits) {
 		this.visits = visits;
+	}
+
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
+	}
+
+	public void setRegistrationDate(LocalDate registrationDate) {
+		this.registrationDate = registrationDate;
 	}
 }

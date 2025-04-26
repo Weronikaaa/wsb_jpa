@@ -5,9 +5,13 @@ import java.io.Serializable;
 public class AddressTO implements Serializable
 {
     private Long id;
+
     private String city;
+
     private String addressLine1;
+
     private String addressLine2;
+
     private String postalCode;
 
     public Long getId() {

@@ -1,76 +1,89 @@
-// package com.jpacourse.persistance.dao;
+package com.jpacourse.persistance.dao;
 
-// import com.jpacourse.persistance.entity.DoctorEntity;
-// import com.jpacourse.persistance.entity.PatientEntity;
-// import com.jpacourse.persistance.entity.VisitEntity;
-// import jakarta.persistence.EntityManager;
-// import jakarta.persistence.OptimisticLockException;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.test.annotation.Rollback;
-// import org.springframework.transaction.annotation.Transactional;
-// import org.springframework.transaction.support.TransactionTemplate;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
-// import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import com.jpacourse.persistance.entity.DoctorEntity;
+import com.jpacourse.persistance.entity.PatientEntity;
+import com.jpacourse.persistance.entity.VisitEntity;
+import com.jpacourse.persistance.enums.Specialization;
 
-// @SpringBootTest
-// @Transactional
-// @Rollback
-// class PatientDaoTest {
+import jakarta.persistence.EntityManager;
 
-//     @Autowired
-//     private PatientDao patientDao;
+@SpringBootTest
+@Transactional
+@Rollback
+class PatientDaoTest {
 
-//     @Autowired
-//     private DoctorDao doctorDao;
+    @Autowired
+    private PatientDao patientDao;
 
-//     @Autowired
-//     private EntityManager entityManager;
+    @Autowired
+    private DoctorDao doctorDao;
 
-//     @Autowired
-//     private TransactionTemplate transactionTemplate;
+    @Autowired
+    private EntityManager entityManager;
 
-//     @Test
-//     void testShouldAddVisitToPatient() {
-//         // Given
-//         DoctorEntity doctor = new DoctorEntity();
-//         doctor.setFirstName("Jan");
-//         doctor.setLastName("Lekarz");
-//         doctor.setSpecialization("Kardiolog");
-//         DoctorEntity savedDoctor = doctorDao.save(doctor);
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
-//         PatientEntity patient = new PatientEntity();
-//         patient.setFirstName("Anna");
-//         patient.setLastName("Kowalska");
-//         patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
-//         PatientEntity savedPatient = patientDao.save(patient);
+    @Test  
+    void testShouldAddVisitToPatient() {
+        
+        // Given
+        DoctorEntity doctor = new DoctorEntity();
+        doctor.setFirstName("Jan");
+        doctor.setLastName("Lekarz");
+        doctor.setSpecialization(Specialization.CARDIOLOGIST);
+        doctor.setTelephoneNumber("123456789");
+        doctor.setDoctorNumber("DOC123"); 
+        doctor.setEmail("doctor@example.com");
+        //?
+        doctor.setAddress(null); 
+        DoctorEntity savedDoctor = doctorDao.save(doctor);
 
-//         LocalDateTime visitDateTime = LocalDateTime.now().minusDays(1);
-//         String description = "Konsultacja kardiologiczna";
+        PatientEntity patient = new PatientEntity();
+        patient.setFirstName("Anna");
+        patient.setLastName("Kowalska");
+        patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
+        PatientEntity savedPatient = patientDao.save(patient);
 
-//         // When
-//         PatientEntity updatedPatient = patientDao.addVisitToPatient(
-//                 savedPatient.getId(),
-//                 savedDoctor.getId(),
-//                 visitDateTime,
-//                 description
-//         );
+        LocalDateTime visitDateTime = LocalDateTime.now().minusDays(1);
+        String description = "Konsultacja kardiologiczna";
 
-//         // Then
-//         assertNotNull(updatedPatient, "Updated patient should not be null");
-//         assertEquals(1, updatedPatient.getVisits().size(), "Patient should have one visit");
-//         VisitEntity visit = updatedPatient.getVisits().get(0);
-//         assertNotNull(visit.getId(), "Visit should have an ID");
-//         assertEquals(visitDateTime, visit.getVisitDateTime(), "Visit date should match");
-//         assertEquals(description, visit.getDescription(), "Visit description should match");
-//         assertEquals(savedDoctor.getId(), visit.getDoctor().getId(), "Doctor ID should match");
-//         assertEquals(savedPatient.getId(), visit.getPatient().getId(), "Patient ID should match");
-//     }
+        // When
+         patientDao.addVisitToPatient(
+                savedPatient.getId(),
+                savedDoctor.getId(),
+                visitDateTime,
+                description
+        );
+
+        // Clear persistence context to ensure we get fresh data
+        entityManager.flush();
+        entityManager.clear();
+
+        // Then
+        PatientEntity updatedPatient = entityManager.find(PatientEntity.class, savedPatient.getId());
+        //PatientEntity updatedPatient = patientDao.findById(savedPatient.getId()).orElseThrow();
+        assertNotNull(updatedPatient, "Updated patient should not be null");
+        assertEquals(1, updatedPatient.getVisits().size(), "Patient should have one visit");
+        VisitEntity visit = updatedPatient.getVisits().get(0);
+        assertNotNull(visit.getId(), "Visit should have an ID");
+        assertEquals(visitDateTime, visit.getTime(), "Visit date should match");
+        assertEquals(description, visit.getDescription(), "Visit description should match");
+        assertEquals(savedDoctor.getId(), visit.getDoctor().getId(), "Doctor ID should match");
+        assertEquals(savedPatient.getId(), visit.getPatient().getId(), "Patient ID should match");
+    }
 
 //     @Test
 //     void testShouldFindPatientsByLastName() {
@@ -240,4 +253,4 @@
 //         assertNotNull(fetchedPatient, "Patient should be found");
 //         assertEquals(2, fetchedPatient.getVisits().size(), "Patient should have two visits");
 //     }
-// }
+}

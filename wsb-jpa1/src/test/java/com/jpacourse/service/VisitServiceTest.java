@@ -1,26 +1,14 @@
+package com.jpacourse.service;
 // package com.jpacourse.persistance.dao;
 
-// import com.jpacourse.persistance.entity.DoctorEntity;
-// import com.jpacourse.persistance.entity.PatientEntity;
-// import com.jpacourse.persistance.entity.VisitEntity;
-// import com.jpacourse.service.DoctorService;
-// import com.jpacourse.service.PatientService;
-// import com.jpacourse.service.VisitService;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.test.annotation.Rollback;
-// import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
-
-// import static org.junit.jupiter.api.Assertions.*;
-
-// @SpringBootTest
-// @Transactional
-// @Rollback
-// class VisitServiceTest {
+@SpringBootTest
+@Transactional
+@Rollback
+class VisitServiceTest {
 
 //     @Autowired
 //     private PatientService patientService;
@@ -62,4 +50,4 @@
 //         assertEquals("Konsultacja kardiologiczna", savedVisit.getDescription(), "Visit description should match");
 //         assertTrue(visitService.findVisitById(savedVisit.getId()).isPresent(), "Visit should be found in the database");
 //     }
-// }
+}

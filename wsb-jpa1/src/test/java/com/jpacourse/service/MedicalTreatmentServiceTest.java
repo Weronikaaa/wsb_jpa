@@ -1,29 +1,15 @@
+package com.jpacourse.service;
+// nie uzywamy dao bo klasa jest servisowa?
 // package com.jpacourse.persistance.dao;
 
-// import com.jpacourse.persistance.entity.DoctorEntity;
-// import com.jpacourse.persistance.entity.MedicalTreatmentEntity;
-// import com.jpacourse.persistance.entity.PatientEntity;
-// import com.jpacourse.persistance.entity.VisitEntity;
-// import com.jpacourse.persistance.enums.TreatmentType;
-// import com.jpacourse.service.DoctorService;
-// import com.jpacourse.service.MedicalTreatmentService;
-// import com.jpacourse.service.PatientService;
-// import com.jpacourse.service.VisitService;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.test.annotation.Rollback;
-// import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
-
-// import static org.junit.jupiter.api.Assertions.*;
-
-// @SpringBootTest
-// @Transactional
-// @Rollback
-// class MedicalTreatmentServiceTest {
+@SpringBootTest
+@Transactional
+@Rollback
+class MedicalTreatmentServiceTest {
 
 //     @Autowired
 //     private PatientService patientService;
@@ -72,4 +58,4 @@
 //         assertEquals(savedVisit.getId(), savedTreatment.getVisit().getId(), "Treatment should be linked to the visit");
 //         assertTrue(treatmentService.findTreatmentById(savedTreatment.getId()).isPresent(), "Treatment should be found in the database");
 //     }
-// }
+}

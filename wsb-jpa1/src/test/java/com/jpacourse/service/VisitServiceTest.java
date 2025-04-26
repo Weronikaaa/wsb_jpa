@@ -1,6 +1,7 @@
 package com.jpacourse.service;
 // package com.jpacourse.persistance.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,14 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Rollback
 class VisitServiceTest {
 
-//     @Autowired
-//     private PatientService patientService;
+    @Autowired
+    private PatientService patientService;
 
-//     @Autowired
-//     private DoctorService doctorService;
+    @Autowired
+    private DoctorService doctorService;
 
-//     @Autowired
-//     private VisitService visitService;
+    @Autowired
+    private VisitService visitService;
 
 //     @Test
 //     void shouldSaveVisitForPatientAndDoctor() {

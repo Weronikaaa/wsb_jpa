@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 
 @Entity
 @Table(name = "PATIENT")
@@ -44,6 +45,9 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate registrationDate;
+
+	@Version
+	private Long version;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false, name = "address_id", referencedColumnName = "id")
@@ -135,4 +139,7 @@ public class PatientEntity {
 	public void setRegistrationDate(LocalDate registrationDate) {
 		this.registrationDate = registrationDate;
 	}
+
+	public Long getVersion() { return version; }
+	public void setVersion(Long version) { this.version = version; }
 }

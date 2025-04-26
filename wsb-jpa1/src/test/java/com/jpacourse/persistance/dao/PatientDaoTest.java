@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,6 +21,7 @@ import com.jpacourse.persistance.entity.VisitEntity;
 import com.jpacourse.persistance.enums.Specialization;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 
 @SpringBootTest
 @Transactional
@@ -182,53 +184,53 @@ class PatientDaoTest {
         assertEquals("Ava", patients.get(0).getFirstName());
     }
 
-//     @Test
-//     void testOptimisticLockOnPatient() {
-//         // Given
-//         PatientEntity patient = new PatientEntity();
-//         patient.setFirstName("Anna");
-//         patient.setLastName("Kowalska");
-//         patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
-//         entityManager.persist(patient);
-//         entityManager.flush();
-//         entityManager.clear();
+    @Test
+    void testOptimisticLockOnPatient() {
+        // Given
+        PatientEntity patient = new PatientEntity();
+        patient.setFirstName("Anna");
+        patient.setLastName("Kowalska");
+        patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
+        entityManager.persist(patient);
+        entityManager.flush();
+        entityManager.clear();
 
-//         Long patientId = patient.getId();
-//         System.out.println("Initial patient version: " + patient.getVersion());
+        Long patientId = patient.getId();
+        System.out.println("Initial patient version: " + patient.getVersion());
 
-//         // Pobierz pacjenta przed pierwszą modyfikacją (version=0)
-//         PatientEntity p2 = entityManager.find(PatientEntity.class, patientId);
-//         assertNotNull(p2, "Patient should be found before first transaction");
-//         System.out.println("Before first transaction, p2 version: " + p2.getVersion());
-//         entityManager.detach(p2); // Odłącz p2, aby zachować version=0
+        // Pobierz pacjenta przed pierwszą modyfikacją (version=0)
+        PatientEntity p2 = entityManager.find(PatientEntity.class, patientId);
+        assertNotNull(p2, "Patient should be found before first transaction");
+        System.out.println("Before first transaction, p2 version: " + p2.getVersion());
+        entityManager.detach(p2); // Odłącz p2, aby zachować version=0
 
-//         // Modyfikuj w pierwszej sesji w oddzielnej transakcji
-//         transactionTemplate.execute(status -> {
-//             PatientEntity p1 = entityManager.find(PatientEntity.class, patientId);
-//             assertNotNull(p1, "Patient should be found in first transaction");
-//             System.out.println("Before update in first transaction, version: " + p1.getVersion());
-//             p1.setFirstName("Anna Maria");
-//             entityManager.merge(p1);
-//             entityManager.flush();
-//             entityManager.clear();
-//             System.out.println("After update in first transaction, version: " + p1.getVersion());
-//             return null;
-//         });
+        // Modyfikuj w pierwszej sesji w oddzielnej transakcji
+        transactionTemplate.execute(status -> {
+            PatientEntity p1 = entityManager.find(PatientEntity.class, patientId);
+            assertNotNull(p1, "Patient should be found in first transaction");
+            System.out.println("Before update in first transaction, version: " + p1.getVersion());
+            p1.setFirstName("Anna Maria");
+            entityManager.merge(p1);
+            entityManager.flush();
+            entityManager.clear();
+            System.out.println("After update in first transaction, version: " + p1.getVersion());
+            return null;
+        });
 
-//         // Modyfikuj p2 w drugiej sesji (powinno rzucić OptimisticLockException)
-//         transactionTemplate.execute(status -> {
-//             System.out.println("Before update in second transaction, p2 version: " + p2.getVersion());
-//             p2.setFirstName("Anna Zofia");
-//             try {
-//                 entityManager.merge(p2);
-//                 entityManager.flush();
-//                 fail("Expected OptimisticLockException");
-//             } catch (OptimisticLockException e) {
-//                 return null;
-//             }
-//             return null;
-//         });
-//     }
+        // Modyfikuj p2 w drugiej sesji (powinno rzucić OptimisticLockException)
+        transactionTemplate.execute(status -> {
+            System.out.println("Before update in second transaction, p2 version: " + p2.getVersion());
+            p2.setFirstName("Anna Zofia");
+            try {
+                entityManager.merge(p2);
+                entityManager.flush();
+                fail("Expected OptimisticLockException");
+            } catch (OptimisticLockException e) {
+                return null;
+            }
+            return null;
+        });
+    }
 
     @Test
     void testFetchPatientWithVisitsSelect() {

@@ -1,7 +1,11 @@
 package com.jpacourse.persistance.dao.impl;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import com.jpacourse.persistance.dao.AddressDao;
+import com.jpacourse.persistance.entity.AddressEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +24,7 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     private DoctorDao doctorDao;
 
     @Override
-    public void addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription){
+    public PatientEntity addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription){
         PatientEntity patient = findOne(patientId);
         DoctorEntity doctor = doctorDao.findOne(doctorId);
 
@@ -37,6 +41,22 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         } else {
             throw new EntityNotFoundException(patientId);
         }
+        return patient;
+    }
+
+    @Override
+    public List<PatientEntity> findByLastName(String lastName) {
+        return List.of();
+    }
+
+    @Override
+    public List<PatientEntity> findWithMoreThanXVisits(int numOfVisits) {
+        return List.of();
+    }
+
+    @Override
+    public List<PatientEntity> findByDateOfBirthBefore(LocalDate date) {
+        return List.of();
     }
 
 

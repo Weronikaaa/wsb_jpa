@@ -1,5 +1,6 @@
 package com.jpacourse.service.impl;
 
+import com.jpacourse.rest.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +21,17 @@ public class PatientServiceImpl implements PatientService {
     public PatientServiceImpl(PatientDao patientDao) { this.patientDao = patientDao; }
 
     @Override
-    public PatientTO findById(Long id) {
+    public PatientTO findPatientById(Long id) {
         final PatientEntity entity = patientDao.findOne(id);
         return PatientMapper.mapToTO(entity);
     }
 
     @Override
-    public void delete(Long id) {
-    patientDao.delete(id);
+    public void deletePatient(Long id) {
+        PatientEntity patient = patientDao.findOne(id);
+        if (patient == null) {
+            throw new EntityNotFoundException(id);
+        }
+        patientDao.delete(patient); // To powinno wywołać kaskadowe usunięcie wizyt
     }
 }

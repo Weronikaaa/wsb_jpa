@@ -22,7 +22,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public DoctorTO findById(Long id) {
+    public DoctorTO findDoctorById(Long id) {
         final DoctorEntity entity = doctorDao.findOne(id);
         return DoctorMapper.mapToTO(entity);
     }

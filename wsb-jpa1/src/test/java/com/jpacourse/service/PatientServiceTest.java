@@ -45,7 +45,7 @@ public class PatientServiceTest {
         System.out.println("Liczba wizyt pacjenta: " + visitDao.findByPatientId(22L).size());
 
         // when
-        patientService.delete(patientIdToDelete);
+        patientService.deletePatient(patientIdToDelete);
 
         // then
         assertThat(patientDao.findOne(patientIdToDelete)).isNull(); // 1- usuniety pacjent 
@@ -66,7 +66,7 @@ public class PatientServiceTest {
         Long patientId = 23L;
 
         // when
-        PatientTO patientTO = patientService.findById(patientId);
+        PatientTO patientTO = patientService.findPatientById(patientId);
 
         // then
         assertThat(patientTO).isNotNull();

@@ -28,6 +28,9 @@ public class DoctorDaoTest
 
         AddressEntity addressEntity = new AddressEntity();
         addressEntity.setAddressLine1("123 Main St");
+        addressEntity.setCity("City");
+        addressEntity.setPostalCode("12345");
+        addressEntity.setAddressLine2("Main St");
 
         doctorEntity.setAddress(addressEntity);
 

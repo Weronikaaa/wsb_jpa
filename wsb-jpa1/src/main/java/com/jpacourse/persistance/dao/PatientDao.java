@@ -1,6 +1,8 @@
 package com.jpacourse.persistance.dao;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import com.jpacourse.persistance.entity.PatientEntity;
 
@@ -10,6 +12,11 @@ public interface PatientDao extends Dao<PatientEntity, Long> {
     //   utworzy nowa encje wizyty i doda ja do pacjenta w jednym wywolaniu - kaskadowy update pacjenta (merge).
     //   Npisz test do tej metody (Dao)
 
-    void addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription);
+    PatientEntity addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription);
 
+    List<PatientEntity> findByLastName(String lastName);
+
+    List<PatientEntity> findWithMoreThanXVisits(int numOfVisits);
+
+    List<PatientEntity> findByDateOfBirthBefore(LocalDate date);
 }

@@ -1,65 +1,77 @@
-// package com.jpacourse.persistance.dao;
+package com.jpacourse.persistance.dao;
 
-// import com.jpacourse.persistance.entity.DoctorEntity;
-// import com.jpacourse.persistance.entity.PatientEntity;
-// import com.jpacourse.persistance.entity.VisitEntity;
-// import com.jpacourse.service.DoctorService;
-// import com.jpacourse.service.PatientService;
-// import com.jpacourse.service.VisitService;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
-// import org.springframework.test.annotation.Rollback;
-// import org.springframework.transaction.annotation.Transactional;
+import com.jpacourse.persistance.entity.DoctorEntity;
+import com.jpacourse.persistance.entity.PatientEntity;
+import com.jpacourse.persistance.entity.VisitEntity;
+import com.jpacourse.persistance.enums.Specialization;
+import com.jpacourse.service.DoctorService;
+import com.jpacourse.service.PatientService;
+import com.jpacourse.service.VisitService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-// import java.time.LocalDate;
-// import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-// import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-// @SpringBootTest
-// @Transactional
-// @Rollback
-// class VisitServiceTest {
+@SpringBootTest
+@Transactional
+public class VisitServiceTest {
 
-//     @Autowired
-//     private PatientService patientService;
+   @Autowired
+   private PatientService patientService;
 
-//     @Autowired
-//     private DoctorService doctorService;
+    @Autowired
+    private PatientDao patientDao;
 
-//     @Autowired
-//     private VisitService visitService;
+   @Autowired
+   private DoctorService doctorService;
 
-//     @Test
-//     void shouldSaveVisitForPatientAndDoctor() {
-//         // Given
-//         PatientEntity patient = new PatientEntity();
-//         patient.setFirstName("Anna");
-//         patient.setLastName("Kowalska");
-//         patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
-//         PatientEntity savedPatient = patientService.savePatient(patient);
+    @Autowired
+    private DoctorDao doctorDao;
 
-//         DoctorEntity doctor = new DoctorEntity();
-//         doctor.setFirstName("Jan");
-//         doctor.setLastName("Lekarz");
-//         doctor.setSpecialization("Kardiolog");
-//         DoctorEntity savedDoctor = doctorService.saveDoctor(doctor);
+   @Autowired
+   private VisitService visitService;
 
-//         VisitEntity visit = new VisitEntity();
-//         visit.setPatient(savedPatient);
-//         visit.setDoctor(savedDoctor);
-//         visit.setVisitDateTime(LocalDateTime.now());
-//         visit.setDescription("Konsultacja kardiologiczna");
+    @Autowired
+    private VisitDao visitDao;
 
-//         // When
-//         VisitEntity savedVisit = visitService.saveVisit(visit);
+   @Test
+   void shouldSaveVisitForPatientAndDoctor() {
+       // Given
+       PatientEntity patient = new PatientEntity();
+       patient.setFirstName("Anna");
+       patient.setLastName("Kowalska");
+       patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
+       patient.setTelephoneNumber("123456789");
+       PatientEntity savedPatient = patientDao.save(patient);
 
-//         // Then
-//         assertNotNull(savedVisit.getId(), "Visit should have an ID");
-//         assertEquals(savedPatient.getId(), savedVisit.getPatient().getId(), "Visit should be linked to the patient");
-//         assertEquals(savedDoctor.getId(), savedVisit.getDoctor().getId(), "Visit should be linked to the doctor");
-//         assertEquals("Konsultacja kardiologiczna", savedVisit.getDescription(), "Visit description should match");
-//         assertTrue(visitService.findVisitById(savedVisit.getId()).isPresent(), "Visit should be found in the database");
-//     }
-// }
+       DoctorEntity doctor = new DoctorEntity();
+       doctor.setFirstName("Jan");
+       doctor.setLastName("Lekarz");
+       doctor.setSpecialization(Specialization.CARDIOLOGIST);
+       doctor.setDoctorNumber("1");
+       doctor.setTelephoneNumber("123456789");
+       DoctorEntity savedDoctor = doctorDao.save(doctor);
+
+       VisitEntity visit = new VisitEntity();
+       visit.setPatient(savedPatient);
+       visit.setDoctor(savedDoctor);
+       visit.setTime(LocalDateTime.now());
+       visit.setDescription("Konsultacja kardiologiczna");
+
+       // When
+       VisitEntity savedVisit = visitDao.save(visit);
+
+       // Then
+       assertNotNull(savedVisit.getId(), "Visit should have an ID");
+       assertEquals(savedPatient.getId(), savedVisit.getPatient().getId(), "Visit should be linked to the patient");
+       assertEquals(savedDoctor.getId(), savedVisit.getDoctor().getId(), "Visit should be linked to the doctor");
+       assertEquals("Konsultacja kardiologiczna", savedVisit.getDescription(), "Visit description should match");
+       assertNotNull(visitService.findById(savedVisit.getId()), "Visit should be found in the database");
+   }
+}

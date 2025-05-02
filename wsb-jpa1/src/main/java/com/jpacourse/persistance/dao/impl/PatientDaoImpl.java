@@ -59,7 +59,6 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         return List.of();
     }
 
-
     // //Wersja z enity manager a nie Dao zeby uzyc merge()
     // @PersistenceContext
     // private EntityManager entityManager;

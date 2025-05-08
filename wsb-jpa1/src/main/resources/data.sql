@@ -23,6 +23,8 @@ CREATE TABLE IF NOT EXISTS doctor
     email            VARCHAR(255),
     doctor_number    VARCHAR(255)                            NOT NULL,
     specialization   VARCHAR(255)                            NOT NULL,
+    registration_date DATE,
+    version          INTEGER DEFAULT 0,
     address_id       BIGINT                                  NOT NULL,
     CONSTRAINT pk_doctor PRIMARY KEY (id)
     );
@@ -96,28 +98,54 @@ VALUES (901, '300 Health Blvd', 'Unit 5', 'Los Angeles', '90001'),
        (902, '456 Elm St', 'Suite 2A', 'San Francisco', '94105'),
        (903, '12 Ocean Ave', 'Penthouse', 'San Diego', '92101'),
        (904, '890 Maple Road', NULL, 'Houston', '77002'),
-       (905, '678 Cedar Lane', 'Building B', 'Austin', '73301');
+       (905, '678 Cedar Lane', 'Building B', 'Austin', '73301'),
+       (906, '100 Main St', 'Apt 101', 'New York', '10001'),
+       (907, '200 Oak Ave', NULL, 'Chicago', '60601'),
+       (908, '300 Pine Rd', 'Suite 500', 'Seattle', '98101');
 
 INSERT INTO DOCTOR (ID, FIRST_NAME, LAST_NAME, TELEPHONE_NUMBER, EMAIL, DOCTOR_NUMBER, SPECIALIZATION, ADDRESS_ID)
 VALUES (123, 'Alice', 'Brown', '987654321', 'abrown@gmail.com', '111222', 'CARDIOLOGIST', 901),
        (124, 'David', 'Clark', '555987654', 'dclark@hospital.com', '333444', 'PEDIATRICIAN', 902),
        (125, 'Sophia', 'Lopez', '555876543', 'slopez@hospital.com', '555666', 'NEUROLOGIST', 904),
-       (126, 'James', 'Wright', '555765432', 'jwright@hospital.com', '777888', 'ORTHOPEDIST', 905);
+       (126, 'James', 'Wright', '555765432', 'jwright@hospital.com', '777888', 'ORTHOPEDIST', 905),
+       (127, 'Michael', 'Johnson', '555111222', 'mjohnson@clinic.com', '999000', 'SURGEON', 906),
+       (128, 'Emily', 'Williams', '555333444', 'ewilliams@clinic.com', '888777', 'DERMATOLOGIST', 907);
 
 INSERT INTO PATIENT (ID, FIRST_NAME, LAST_NAME, TELEPHONE_NUMBER, EMAIL, PATIENT_NUMBER, DATE_OF_BIRTH, ADDRESS_ID)
 VALUES (22, 'Liam', 'Davis', '555123456', 'ldavis@gmail.com', '12345', '1995-06-15', 903),
        (23, 'Emma', 'Harris', '555234567', 'eharris@email.com', '54321', '1992-12-25', 902),
-       (24, 'Noah', 'Martinez', '555345678', 'nmartinez@email.com', '67890', '1980-02-10', 905);
+       (24, 'Noah', 'Martinez', '555345678', 'nmartinez@email.com', '67890', '1980-02-10', 905),
+       (25, 'Olivia', 'Smith', '555456789', 'osmith@email.com', '98765', '1985-08-20', '2023-01-15', 906),
+       (26, 'William', 'Brown', '555567890', 'wbrown@email.com', '87654', '1978-11-30', '2023-02-20', 907),
+       (27, 'Sophia', 'Wilson', '555678901', 'swilson@email.com', '76543', '1990-04-25', '2023-03-10', 908),
+       (28, 'James', 'Taylor', '555789012', 'jtaylor@email.com', '65432', '1982-07-12', '2023-04-05', 906),
+       (29, 'Charlotte', 'Anderson', '555890123', 'canderson@email.com', '54321', '1975-09-18', '2023-05-22', 907);
 
 INSERT INTO VISIT (ID, DESCRIPTION, TIME, DOCTOR_ID, PATIENT_ID)
 VALUES (48, 'Routine Check', '2025-05-01 11:00:00', 123, 22),
        (49, 'Annual Exam', '2025-04-10 10:30:00', 124, 23),
        (50, 'Specialist Consult', '2025-04-15 13:00:00', 125, 24),
-       (51, 'Therapy Session', '2025-04-05 14:45:00', 126, 23);
+       (51, 'Therapy Session', '2025-04-05 14:45:00', 126, 23),
+       (52, 'Initial Consultation', '2023-06-01 09:00:00', 127, 25),
+       (53, 'Follow-up', '2023-06-15 10:30:00', 127, 25),
+       (54, 'Routine Check', '2023-06-02 11:00:00', 128, 26),
+       (55, 'Specialist Consult', '2023-06-10 14:00:00', 127, 27),
+       (56, 'Annual Exam', '2023-06-05 13:30:00', 128, 28),
+       (57, 'Therapy Session', '2023-06-12 15:45:00', 127, 28),
+       (58, 'Post-op Check', '2023-06-20 16:30:00', 128, 28),
+       (59, 'Vaccination', '2023-06-08 10:15:00', 127, 29);
 
 INSERT INTO MEDICAL_TREATMENT (ID, DESCRIPTION, TYPE, VISIT_ID)
 VALUES (101, 'Cardiac Assessment', 'MRI', 49),
        (102, 'Kidney Scan', 'CT', 49),
        (103, 'Lung Imaging', 'X_RAY', 50),
        (104, 'Retinal Scan', 'OCT', 51),
-       (105, 'Spinal MRI', 'MRI', 48);
+       (105, 'Spinal MRI', 'MRI', 48),
+       (106, 'Blood Test', 'LAB', 52),
+       (107, 'X-Ray', 'X_RAY', 53),
+       (108, 'Skin Biopsy', 'BIOPSY', 54),
+       (109, 'Ultrasound', 'USG', 55),
+       (110, 'Physical Therapy', 'THERAPY', 56),
+       (111, 'MRI Scan', 'MRI', 57),
+       (112, 'Suture Removal', 'POST_OP', 58),
+       (113, 'Flu Vaccine', 'VACCINE', 59);

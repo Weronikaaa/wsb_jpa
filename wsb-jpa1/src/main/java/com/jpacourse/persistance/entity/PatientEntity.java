@@ -32,7 +32,7 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
-	@Column
+	@Column(name = "registration_date")
 	private LocalDate registrationDate;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

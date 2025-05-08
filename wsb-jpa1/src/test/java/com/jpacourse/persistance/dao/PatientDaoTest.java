@@ -45,48 +45,32 @@ public class PatientDaoTest {
 
     }
 
-//    @Transactional
-//    @Rollback
-//    @Test
-//    public void testShouldSaveAddress() {
-//        // given
-//        AddressEntity addressEntity = new AddressEntity();
-//        addressEntity.setAddressLine1("line1");
-//        addressEntity.setAddressLine2("line2");
-//        addressEntity.setCity("City1");
-//        addressEntity.setPostalCode("66-666");
-//        long entitiesNumBefore = addressDao.count();
-//
-//        // when
-//        final AddressEntity saved = addressDao.save(addressEntity);
-//
-//        // then
-//        assertThat(saved).isNotNull();
-//        assertThat(saved.getId()).isNotNull();
-//        assertThat(addressDao.count()).isEqualTo(entitiesNumBefore + 1);
-//    }
-//
-//    @Transactional
-//    @Rollback
-//    @Test
-//    public void testShouldSaveAndRemoveAddress() {
-//        // given
-//        AddressEntity addressEntity = new AddressEntity();
-//        addressEntity.setAddressLine1("line1");
-//        addressEntity.setAddressLine2("line2");
-//        addressEntity.setCity("City1");
-//        addressEntity.setPostalCode("66-666");
-//
-//        // when
-//        final AddressEntity saved = addressDao.save(addressEntity);
-//        assertThat(saved.getId()).isNotNull();
-//        final AddressEntity newSaved = addressDao.findOne(saved.getId());
-//        assertThat(newSaved).isNotNull();
-//
-//        addressDao.delete(saved.getId());
-//
-//        // then
-//        final AddressEntity removed = addressDao.findOne(saved.getId());
-//        assertThat(removed).isNull();
-//    }
+    @Transactional
+    @Rollback
+    @Test
+    public void testShouldFindPatientByLastName() {
+        // given
+        String commonLastName = "Smith";
+
+        PatientEntity patient1 = new PatientEntity();
+        patient1.setFirstName("John");
+        patient1.setLastName(commonLastName);
+        patient1.setTelephoneNumber("555111222");
+        patient1.setDateOfBirth(LocalDate.of(1985, 5, 15));
+        patientDao.save(patient1);
+
+        // when
+        List<PatientEntity> foundPatients = patientDao.findByLastName(commonLastName);
+        // then
+        assertThat(foundPatients)
+                .hasSize(1)
+                .extracting(PatientEntity::getLastName)
+                .containsOnly(commonLastName);
+
+        assertThat(foundPatients)
+                .extracting(PatientEntity::getFirstName)
+                .containsExactlyInAnyOrder("John");
+
+    }
+
 }

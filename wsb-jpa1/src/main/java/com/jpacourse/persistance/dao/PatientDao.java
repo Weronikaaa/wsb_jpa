@@ -18,5 +18,5 @@ public interface PatientDao extends Dao<PatientEntity, Long> {
 
     List<PatientEntity> findWithMoreThanXVisits(int numOfVisits);
 
-    List<PatientEntity> findByDateOfBirthBefore(LocalDate date);
+    List<PatientEntity> findByRegistrationDateBetween(LocalDate startDate, LocalDate endDate);
 }

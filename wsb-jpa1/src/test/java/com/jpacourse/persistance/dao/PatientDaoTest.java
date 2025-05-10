@@ -135,4 +135,50 @@ public class PatientDaoTest {
                 .containsExactly("Harris");
     }
 
+    @Transactional
+    @Rollback
+    @Test
+    public void testShouldFindPatientsByRegistrationDateRange() {
+        // given
+        LocalDate today = LocalDate.now();
+        LocalDate startDate = today.minusDays(7); // Tydzień temu
+        LocalDate endDate = today.plusDays(1);    // Jutro
+
+        // Pacjent zarejestrowany 2 tygodnie temu (NIE powinien się znaleźć)
+        PatientEntity oldPatient = new PatientEntity();
+        oldPatient.setFirstName("Old");
+        oldPatient.setLastName("Patient");
+        oldPatient.setDateOfBirth(LocalDate.of(1980, 1, 1));
+        oldPatient.setTelephoneNumber("123456789");
+        oldPatient.setRegistrationDate(today.minusWeeks(2));
+        patientDao.save(oldPatient);
+
+        // Pacjent zarejestrowany 3 dni temu (POWINIEN się znaleźć)
+        PatientEntity recentPatient1 = new PatientEntity();
+        recentPatient1.setFirstName("Recent");
+        recentPatient1.setLastName("Patient1");
+        recentPatient1.setDateOfBirth(LocalDate.of(1990, 1, 1));
+        recentPatient1.setTelephoneNumber("123456789");
+        recentPatient1.setRegistrationDate(today.minusDays(3));
+        patientDao.save(recentPatient1);
+
+        // Pacjent zarejestrowany dzisiaj (POWINIEN się znaleźć)
+        PatientEntity recentPatient2 = new PatientEntity();
+        recentPatient2.setFirstName("Today");
+        recentPatient2.setLastName("Patient2");
+        recentPatient2.setDateOfBirth(LocalDate.of(1995, 1, 1));
+        recentPatient2.setTelephoneNumber("123456789");
+        recentPatient2.setRegistrationDate(today);
+        patientDao.save(recentPatient2);
+
+        // when
+        List<PatientEntity> foundPatients = patientDao.findByRegistrationDateBetween(startDate, endDate);
+
+        // then
+        assertThat(foundPatients)
+                .hasSize(2)
+                .extracting(PatientEntity::getLastName)
+                .containsExactlyInAnyOrder("Patient1", "Patient2");
+    }
+
 }

@@ -64,34 +64,14 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     }
 
     @Override
-    public List<PatientEntity> findByDateOfBirthBefore(LocalDate date) {
-        return List.of();
+    public List<PatientEntity> findByRegistrationDateBetween(LocalDate startDate, LocalDate endDate) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p WHERE p.registrationDate BETWEEN :start AND :end",
+                        PatientEntity.class)
+                .setParameter("start", startDate)
+                .setParameter("end", endDate)
+                .getResultList();
     }
-
-    // //Wersja z enity manager a nie Dao zeby uzyc merge()
-    // @PersistenceContext
-    // private EntityManager entityManager;
-
-    // @Override
-    // public void addVisitToPatient(Long patientId, Long doctorId, 
-    //                             LocalDateTime visitDate, String visitDescription) {
-    //     PatientEntity patient = entityManager.find(PatientEntity.class, patientId);
-    //     DoctorEntity doctor = entityManager.find(DoctorEntity.class, doctorId);
-
-    //     if (patient == null || doctor == null) {
-    //         throw new IllegalArgumentException("Patient or Doctor not found");
-    //     }
-
-    //     VisitEntity newVisit = new VisitEntity();
-    //     newVisit.setTime(visitDate);
-    //     newVisit.setDescription(visitDescription);
-    //     newVisit.setPatient(patient);
-    //     newVisit.setDoctor(doctor);
-
-    //     patient.getVisits().add(newVisit);
-    //     entityManager.merge(patient); //kaskada
-    //     // merge() synchronizuje stan encji z bazą danych
-    // }
 
 } 
 

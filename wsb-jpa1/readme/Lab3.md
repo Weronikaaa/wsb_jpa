@@ -12,7 +12,7 @@ Napisz testy do zapytan w nastepujacej formie:
 1. do zapytania nr 1  - test DAO - done
 2. do zapytania nr 2 - test serwisu
 3. do zapytania nr 3 - test DAO - done 
-4. do zapytania nr 4 - test DAO
+4. do zapytania nr 4 - test DAO -done
 
 W PatientEntity, nad relacja do VisitEntity dodaj adnotacje
 

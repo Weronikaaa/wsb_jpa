@@ -3,8 +3,11 @@ package com.jpacourse.rest.exception;
 public class EntityNotFoundException extends RuntimeException
 {
 
-    public EntityNotFoundException(Long id)
-    {
-        super("Could not find entity of id " + id);
+    public EntityNotFoundException(String message) {
+        super(message);
     }
+    public EntityNotFoundException(Long id) {
+    }
+
+
 }

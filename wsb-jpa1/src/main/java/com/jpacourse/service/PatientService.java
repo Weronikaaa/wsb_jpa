@@ -10,5 +10,5 @@ public interface PatientService {
 
     void deletePatient(Long id);
 
-    List<VisitTO> getVisitsByPatientId(long patientId);
+    List<VisitTO> findVisitsByPatientId(long patientId);
 }

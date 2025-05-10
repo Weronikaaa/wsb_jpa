@@ -54,8 +54,13 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     }
 
     @Override
-    public List<PatientEntity> findWithMoreThanXVisits(int numOfVisits) {
-        return List.of();
+    public List<PatientEntity> findWithMoreThanXVisits(int minVisits) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p " +
+                                "WHERE (SELECT COUNT(v) FROM VisitEntity v WHERE v.patient = p) > :minVisits",
+                        PatientEntity.class)
+                .setParameter("minVisits", (long) minVisits)
+                .getResultList();
     }
 
     @Override

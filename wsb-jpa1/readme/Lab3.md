@@ -9,9 +9,9 @@ Uzupelnij plik data.sql o dane niezbedne do realizacji nastepujacych zapytan:
 4. Znajdz pacjentow po dodanym przez Ciebie polu - nie wyszukuj wprost po wartosci, uzyj zapytania typu wieksze/mniejsze/pozniej/wczesniej/zawiera, w zaleznosci od wybranego typu zmiennej.
 
 Napisz testy do zapytan w nastepujacej formie:
-1. do zapytania nr 1  - test DAO
+1. do zapytania nr 1  - test DAO - done
 2. do zapytania nr 2 - test serwisu
-3. do zapytania nr 3 - test DAO
+3. do zapytania nr 3 - test DAO - done 
 4. do zapytania nr 4 - test DAO
 
 W PatientEntity, nad relacja do VisitEntity dodaj adnotacje

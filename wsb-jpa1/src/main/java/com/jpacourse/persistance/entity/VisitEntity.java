@@ -31,7 +31,7 @@ public class VisitEntity {
 	private LocalDateTime time;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(nullable = false, name = "doctor_id")
+	@JoinColumn(nullable = true, name = "doctor_id")
 	private DoctorEntity doctor;
 
 	@ManyToOne(fetch = FetchType.LAZY)

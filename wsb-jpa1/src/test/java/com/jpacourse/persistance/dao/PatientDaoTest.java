@@ -2,9 +2,15 @@ package com.jpacourse.persistance.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.jpacourse.persistance.entity.AddressEntity;
 import com.jpacourse.persistance.entity.VisitEntity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.OptimisticLockException;
+import jakarta.persistence.RollbackException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -234,5 +240,78 @@ public class PatientDaoTest {
                 .containsExactlyInAnyOrder("Patient1", "Patient2");
     }
 
+    @Autowired
+    private EntityManagerFactory entityManagerFactory;
+
+
+    // OL - zapewnia ze dane nie zostana nadpisane przez równoczesne transakcje
+    @Test
+    public void OptimisticLock() {
+        Long patientId;
+        Long addressId;
+
+        // Adres
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            em.getTransaction().begin(); //rozpoczyna transakcje
+            AddressEntity address = new AddressEntity();
+            address.setCity("Wrocław");
+            address.setPostalCode("00-071");
+            address.setAddressLine1("Polska");
+            em.persist(address);  //zapisuje address do db
+            em.getTransaction().commit();   //zatwierdza transakcje
+            addressId = address.getId();
+        }
+
+        // Pacjent z  adresem
+        try (EntityManager em = entityManagerFactory.createEntityManager()) {
+            em.getTransaction().begin();
+            PatientEntity patient = new PatientEntity();
+            patient.setFirstName("Beata");
+            patient.setLastName("Szydło");
+            patient.setPatientNumber("P779");
+            patient.setTelephoneNumber("773145123");
+            patient.setEmail("szydło@pl.com");
+            patient.setDateOfBirth(LocalDate.of(1990, 1, 1));
+
+            //Adresu do pacjenta pzypisac
+            AddressEntity address = em.find(AddressEntity.class, addressId);
+            patient.setAddress(address);
+
+            em.persist(patient);   //zapisuje pacjenta w bazie
+            em.getTransaction().commit();
+            patientId = patient.getId();
+        }
+
+        // test blokady
+        //Symulacja konfliktu przy współbieżnej aktualizacji??
+        // robione sa 2 niezalezne sesje (EM) symuluja polaczenia dwoch użyt
+        EntityManager em1 = entityManagerFactory.createEntityManager();
+        EntityManager em2 = entityManagerFactory.createEntityManager();
+
+        // Wczytanie TEJ SAMEJ encji pacjenta w dwóch różnych sesjach
+        // jak uzywamy @version to p1 i p2 maja te sama wersje danych
+        PatientEntity p1 = em1.find(PatientEntity.class, patientId);
+        PatientEntity p2 = em2.find(PatientEntity.class, patientId);
+
+        em1.getTransaction().begin();
+        p1.setLastName("Kozidrak");  //modyfikacja nazwiska p1
+        em1.merge(p1);
+        em1.getTransaction().commit();  //zatwierdzenie zmainy
+        em1.close();
+
+        em2.getTransaction().begin();
+        p2.setLastName("Tyszkiewicz");
+
+        RollbackException rollbackEx = assertThrows(RollbackException.class, () -> {
+            em2.merge(p2);
+            em2.getTransaction().commit();
+        });
+
+        // Weryfikacja, że przyczyną błędu był OptimisticLockException
+        Throwable cause = rollbackEx.getCause();
+        assertInstanceOf(OptimisticLockException.class, cause, "OptimisticLockException");
+
+        em2.close();
+    }
 
 }

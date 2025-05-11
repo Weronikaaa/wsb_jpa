@@ -3,8 +3,10 @@ package com.jpacourse.persistance.dao;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import com.jpacourse.persistance.entity.PatientEntity;
+import com.jpacourse.persistance.entity.VisitEntity;
 
 public interface PatientDao extends Dao<PatientEntity, Long> {
     //dodac metode ktora na podstawie parametrow wejsciowych:
@@ -15,6 +17,8 @@ public interface PatientDao extends Dao<PatientEntity, Long> {
     PatientEntity addVisitToPatient(Long patientId, Long doctorId, LocalDateTime visitDate, String visitDescription);
 
     List<PatientEntity> findByLastName(String lastName);
+
+    List<PatientEntity> findById(Long id);
 
     List<PatientEntity> findWithMoreThanXVisits(int numOfVisits);
 

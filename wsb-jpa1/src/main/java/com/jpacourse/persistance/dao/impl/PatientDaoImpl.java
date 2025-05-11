@@ -3,6 +3,7 @@ package com.jpacourse.persistance.dao.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import com.jpacourse.persistance.dao.AddressDao;
 import com.jpacourse.persistance.entity.AddressEntity;
@@ -50,6 +51,15 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
                         "SELECT p FROM PatientEntity p WHERE p.lastName = :lastName",
                         PatientEntity.class)
                 .setParameter("lastName", lastName)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findById(Long id) {
+        return entityManager.createQuery(
+                        "SELECT p FROM PatientEntity p LEFT JOIN FETCH p.visits WHERE p.id = :id",
+                        PatientEntity.class)
+                .setParameter("id", id)
                 .getResultList();
     }
 

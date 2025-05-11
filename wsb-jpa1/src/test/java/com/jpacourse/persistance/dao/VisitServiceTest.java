@@ -1,5 +1,6 @@
 package com.jpacourse.persistance.dao;
 
+import com.jpacourse.persistance.entity.AddressEntity;
 import com.jpacourse.persistance.entity.DoctorEntity;
 import com.jpacourse.persistance.entity.PatientEntity;
 import com.jpacourse.persistance.entity.VisitEntity;
@@ -42,11 +43,18 @@ public class VisitServiceTest {
    @Test
    void shouldSaveVisitForPatientAndDoctor() {
        // Given
+       AddressEntity address = new AddressEntity();
+       address.setAddressLine1("ul. Testowa 123");
+       address.setCity("Warszawa");
+       address.setPostalCode("00-001");
+
        PatientEntity patient = new PatientEntity();
        patient.setFirstName("Anna");
        patient.setLastName("Kowalska");
        patient.setDateOfBirth(LocalDate.of(1990, 5, 15));
        patient.setTelephoneNumber("123456789");
+       patient.setPatientNumber("PAT-" + System.currentTimeMillis());
+       patient.setAddress(address);
        PatientEntity savedPatient = patientDao.save(patient);
 
        DoctorEntity doctor = new DoctorEntity();
@@ -55,6 +63,7 @@ public class VisitServiceTest {
        doctor.setSpecialization(Specialization.CARDIOLOGIST);
        doctor.setDoctorNumber("1");
        doctor.setTelephoneNumber("123456789");
+       doctor.setAddress(address);
        DoctorEntity savedDoctor = doctorDao.save(doctor);
 
        VisitEntity visit = new VisitEntity();

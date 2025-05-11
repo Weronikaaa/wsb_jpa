@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "PATIENT")
@@ -26,7 +28,7 @@ public class PatientEntity {
 	@Column
 	private String email;
 
-	@Column
+	@Column(nullable = true)
 	private String patientNumber;
 
 	@Column(nullable = false)
@@ -39,7 +41,8 @@ public class PatientEntity {
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private AddressEntity address;
 
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Fetch(FetchMode.JOIN)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
 	private List<VisitEntity> visits = new ArrayList<>();
 
 	@Version

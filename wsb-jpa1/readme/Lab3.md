@@ -27,3 +27,8 @@ Nastepnie zmien adnotacje na
 i powtorz test i obserwacje. Wnioski zapisz na dole tego pliku i skomituj.
 
 Do wybranej encji dodaj wersjonowanie, oraz napisz test (w DAO) sprawdzajacy rownolegla modyfikacje (OptimisticLock)
+
+
+W przypadku testu testShouldFindPatientsWithMoreThanXVisits nie odnotowujemy różnic w wynikach testu powodem jest uzycie w naszym tescie COUNT nadpisujaca domyslna startegie pobrania
+@Fetch(FetchMode.SELECT) - Domyślna strategia (Lazy Loading z N+1)
+@Fetch(FetchMode.JOIN) - Ładowanie przez złączenie
